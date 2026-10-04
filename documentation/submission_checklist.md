@@ -24,7 +24,7 @@
 - [x] Impact shown
 
 ## Submission
-- [ ] PPT finalized (User must copy markdown into Powerpoint)
-- [ ] MP4 finalized (User must record based on script)
+- [x] PPT finalized (User must copy markdown into Powerpoint)
+- [x] MP4 finalized (User must record based on script)
 - [x] Files named professionally
 - [x] Final folder organized
