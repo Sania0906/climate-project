@@ -24,13 +24,22 @@ st.markdown("""
 @st.cache_resource
 def load_models():
     base_path = os.path.dirname(__file__)
+    model_path = os.path.join(base_path, '../models/irrigation_model.pkl')
     try:
+        if not os.path.exists(model_path):
+            import sys
+            sys.path.append(os.path.abspath(os.path.join(base_path, '..')))
+            from data.generate_data import generate_synthetic_data
+            from models.train_model import train_models
+            generate_synthetic_data()
+            train_models()
+
         reg_model = joblib.load(os.path.join(base_path, '../models/irrigation_model.pkl'))
         clf_model = joblib.load(os.path.join(base_path, '../models/stress_model.pkl'))
         encoders = joblib.load(os.path.join(base_path, '../models/label_encoders.pkl'))
         return reg_model, clf_model, encoders
     except Exception as e:
-        st.error(f"Error loading models. Please run 'python models/train_model.py' first. Details: {e}")
+        st.error(f"Error loading models. Details: {e}")
         return None, None, None
 
 reg_model, clf_model, encoders = load_models()
