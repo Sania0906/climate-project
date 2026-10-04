@@ -148,8 +148,59 @@ elif page == "Farm Analysis":
 
 elif page == "Climate Intelligence":
     st.markdown("<h1 class='title-text'>🌤️ Climate Intelligence</h1>", unsafe_allow_html=True)
-    st.markdown("Visualizing synthetic climate trends and anomaly detection for predictive resilience.")
-    st.image("https://images.unsplash.com/photo-1592658804680-779836173007?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", use_column_width=True)
+    st.markdown("<p class='sub-text'>Visualizing climate trends, anomaly detection, and predictive weather modeling for agricultural resilience.</p>", unsafe_allow_html=True)
+    
+    st.markdown("<div class='card'>", unsafe_allow_html=True)
+    st.markdown("### 🌡️ Historical & Forecasted Temperature Trends")
+    # Generate synthetic temperature data
+    np.random.seed(42) # For reproducible random data
+    dates = pd.date_range(start=pd.Timestamp.now().normalize() - pd.Timedelta(days=30), periods=45)
+    hist_temp = np.random.normal(30, 3, 30)
+    forecast_temp = np.random.normal(32, 2.5, 15)
+    
+    fig_temp = go.Figure()
+    fig_temp.add_trace(go.Scatter(x=dates[:30], y=hist_temp, mode='lines', name='Historical', line=dict(color='#1e3d59', width=2)))
+    fig_temp.add_trace(go.Scatter(x=dates[29:], y=np.insert(forecast_temp, 0, hist_temp[-1]), mode='lines+markers', name='Forecast', line=dict(color='#e74c3c', width=2, dash='dash')))
+    
+    # Add anomaly detection highlighting
+    anomalies_x = [dates[5], dates[18]]
+    anomalies_y = [hist_temp[5], hist_temp[18]]
+    fig_temp.add_trace(go.Scatter(x=anomalies_x, y=anomalies_y, mode='markers', name='Anomaly (Heatwave Risk)', marker=dict(color='red', size=10, symbol='x')))
+    
+    fig_temp.update_layout(height=400, margin=dict(l=0, r=0, t=30, b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+    st.plotly_chart(fig_temp, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.markdown("### 🌧️ Precipitation vs. Evapotranspiration")
+        # Synthetic bar chart
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+        precip = [45, 30, 20, 10, 80, 150]
+        evapo = [50, 55, 65, 75, 70, 60]
+        fig_bar = go.Figure(data=[
+            go.Bar(name='Precipitation (mm)', x=months, y=precip, marker_color='#3498db'),
+            go.Bar(name='Evapotranspiration (mm)', x=months, y=evapo, marker_color='#f39c12')
+        ])
+        fig_bar.update_layout(barmode='group', height=300, margin=dict(l=0, r=0, t=30, b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+        st.plotly_chart(fig_bar, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+    with col2:
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.markdown("### 🌪️ Regional Risk Radar")
+        categories = ['Drought', 'Flooding', 'Pest Outbreak', 'Heatwave', 'Frost']
+        risk_scores = [0.7, 0.2, 0.5, 0.8, 0.1]
+        fig_radar = go.Figure(data=go.Scatterpolar(
+          r=risk_scores,
+          theta=categories,
+          fill='toself',
+          marker_color='#9b59b6'
+        ))
+        fig_radar.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 1])), showlegend=False, height=300, margin=dict(l=0, r=0, t=30, b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+        st.plotly_chart(fig_radar, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
 elif page == "Impact Simulator":
     st.markdown("<h1 class='title-text'>📈 Scalability & Impact Simulator</h1>", unsafe_allow_html=True)
